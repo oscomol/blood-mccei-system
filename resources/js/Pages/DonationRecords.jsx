@@ -4,13 +4,13 @@ import { Plus, Search } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import DonationListTable from "@/Components/User/Donation-records/DonationListTable";
 import DonationForm from "@/Components/User/Donation-records/DonationForm";
-import { Input } from "@/Components/ui/input";
-import Cards from "@/Components/User/Donation-records/Cards";
 import InputSearch from "@/Components/User/Shared/InputSearch";
 import { router } from "@inertiajs/react";
+import ConfirmDeleteRecord from "@/Components/User/Donation-records/ConfirmDeleteRecord";
 
 const DonationRecords = ({ donors, donations, reports, donor_info }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
     const [selectedDonation, setSelectedDonation] = useState(null);
 
     const [search, setSearch] = useState("");
@@ -19,8 +19,6 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
 
     const isFirstRender = useRef(true);
 
-    console.log(donor_info);
-
     useEffect(() => {
         if (isFirstRender.current) {
             isFirstRender.current = false;
@@ -28,7 +26,7 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
         }
 
         const timeout = setTimeout(() => {
-            let qry = { search: search || undefined };
+            let qry = { search: search || undefined, donor_id: donor_info?.id || undefined };
 
             if (bloodType && bloodType != "All Blood Types") {
                 qry = { ...qry, blood_type: bloodType };
@@ -58,10 +56,21 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
         setIsOpen(true);
     };
 
+    const confirmDeleteDonation = (record) => {
+        setSelectedDonation(record);
+        setIsOpen(false);
+        setIsConfirmOpen(true)
+    }
+
+    const deleteRecord = (record) => {
+        console.log(record)
+    }
+
     return (
         <>
             <AuthenticatedLayout2
-                title={donor_info?.full_name}
+                title="Donation Records"
+                subtitle1ST={donor_info?.full_name}
                 subtitle="Blood donation history and lifecycle tracking"
                 actionButton={
                     <div className="flex items-center gap-2">
@@ -83,7 +92,7 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
                 }
             >
                 <div className="space-y-4">
-                    <Cards {...{ reports }} />
+                    {/* <Cards {...{ reports }} /> */}
                     <DonationListTable
                         {...{
                             donations,
@@ -92,10 +101,12 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
                             setBloodType,
                             statusType,
                             setStatusType,
+                            confirmDeleteDonation
                         }}
                     />
                 </div>
             </AuthenticatedLayout2>
+            <ConfirmDeleteRecord {...{isConfirmOpen, setIsConfirmOpen, deleteRecord, selectedDonation, setSelectedDonation}} />
             <DonationForm
                 {...{
                     isOpen,

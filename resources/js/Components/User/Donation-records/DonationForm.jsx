@@ -1,25 +1,10 @@
 import { useForm } from "@inertiajs/react";
 import React, { useEffect } from "react";
 import { Label } from "@/Components/ui/label";
-import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
 import { Textarea } from "@/Components/ui/textarea";
 import { CheckCircle2 } from "lucide-react";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/Components/ui/select";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/Components/ui/dialog";
+import { DialogFooter } from "@/Components/ui/dialog";
 import { cn, formatDateForInput, isFormValid } from "@/lib/utils";
 import SelectInput from "../Shared/SelectInput";
 import InputText from "../Shared/InputText";
@@ -40,7 +25,7 @@ const DonationForm = ({
     donors,
     selectedDonation,
     setSelectedDonation,
-    donor_info
+    donor_info,
 }) => {
     const { data, setData, post, errors, reset, processing } = useForm({
         id: null,
@@ -53,7 +38,9 @@ const DonationForm = ({
     });
 
     useEffect(() => {
+        console.log(selectedDonation);
         if (!selectedDonation) return;
+        console.log(selectedDonation + "AFTER");
         setData({
             id: selectedDonation?.id || null,
             donor_id: String(selectedDonation.donor_id ?? ""),
@@ -71,6 +58,7 @@ const DonationForm = ({
 
     const submit = (e) => {
         e.preventDefault();
+        console.log(data);
         post(route("donation.createOrUpdate"), {
             onSuccess: () => {
                 reset();
@@ -83,6 +71,7 @@ const DonationForm = ({
         <Modal
             setOpen={setIsOpen}
             isOpen={isOpen}
+            subtitle={`New Donation for donor ${donor_info?.full_name}`}
             title={
                 setSelectedDonation?.id
                     ? "Update donation record"
@@ -93,7 +82,7 @@ const DonationForm = ({
         >
             <form onSubmit={submit}>
                 <div className="grid w-full flex-1 grid-cols-1 gap-x-6 gap-y-3 pr-1 sm:grid-cols-2">
-                    <div>
+                    {/* <div>
                         <Label className={labelClass}>Donor</Label>
                         <Select
                             value={data.donor_id ? String(data.donor_id) : ""}
@@ -125,6 +114,15 @@ const DonationForm = ({
                         arrayList={BLOOD_TYPE}
                         error={errors.blood_type}
                         placeholder="Select blood type"
+                    /> */}
+
+                    <InputText
+                        type="date"
+                        value={data.donation_date}
+                        setValue={(v) => setData("donation_date", v)}
+                        lbl="Donation Date"
+                        error={errors.donation_date}
+                        placeholder="Enter date"
                     />
 
                     <InputText
@@ -133,15 +131,6 @@ const DonationForm = ({
                         setValue={(v) => setData("next_eligible_date", v)}
                         lbl="Next Eligible Date"
                         error={errors.next_eligible_date}
-                        placeholder="Enter date"
-                    />
-
-                    <InputText
-                        type="date"
-                        value={data.donation_date}
-                        setValue={(v) => setData("donation_date", v)}
-                        lbl="Donation Date"
-                        error={errors.donation_date}
                         placeholder="Enter date"
                     />
 
@@ -175,7 +164,7 @@ const DonationForm = ({
                         <Button
                             type="button"
                             variant="outline"
-                            onClick={() => setAddDonationFormOpen(false)}
+                            onClick={() => setIsOpen(false)}
                         >
                             Cancel
                         </Button>
@@ -185,11 +174,13 @@ const DonationForm = ({
                             disabled={processing || !isFormValid(data)}
                         >
                             <CheckCircle2 className="size-4" />
-                            {
-                                processing ?
-                                (selectedDonation?.id ? "Saving changes...":"Saving donation...")
-                                :(selectedDonation?.id ? "Save changes":"Save donation")
-                            }
+                            {processing
+                                ? selectedDonation?.id
+                                    ? "Saving changes..."
+                                    : "Saving donation..."
+                                : selectedDonation?.id
+                                  ? "Save changes"
+                                  : "Save donation"}
                         </Button>
                     </div>
                 </DialogFooter>

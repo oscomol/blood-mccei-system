@@ -46,10 +46,10 @@ class DonationController extends Controller
                 $query->where('donation_status', $status_type);
             })
              ->when($donor_id, function ($query, $donor_id) {
-                $query->where('id', $donor_id);
+                $query->where('donor_id', $donor_id);
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(5)
+            ->paginate(10)
             ->withQueryString()
             ->through(fn($donation) => [
                 'id'                         => $donation->id,

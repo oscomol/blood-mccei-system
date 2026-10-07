@@ -18,7 +18,7 @@ import AppSidebar from "./AppSidebar";
 import { toast } from "sonner";
 import { Toaster } from "@/Components/ui/sonner";
 
-const AuthenticatedLayout2 = ({ children, title, subtitle, actionButton }) => {
+const AuthenticatedLayout2 = ({ children, title, subtitle, actionButton, subtitle1ST }) => {
     const { flash } = usePage().props;
 
     useEffect(() => {
@@ -61,7 +61,7 @@ const AuthenticatedLayout2 = ({ children, title, subtitle, actionButton }) => {
                     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h2 className="font-['Plus_Jakarta_Sans',sans-serif] text-xl font-bold tracking-tight text-slate-900">
-                                {title}
+                                {subtitle1ST || title}
                             </h2>
                             <p className="mt-1 text-sm text-slate-500">
                                 {subtitle}.

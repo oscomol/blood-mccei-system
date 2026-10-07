@@ -44,9 +44,7 @@ const UserAccountsTable = ({ users, editUser, deleteUser }) => {
                 </Table>
             </div>
 
-            {users.last_page > 1 && (
-               <PaginatedNav {...{paginateData: users}} />
-            )}
+            <PaginatedNav {...{paginateData: users}} />
         </Card>
     );
 };

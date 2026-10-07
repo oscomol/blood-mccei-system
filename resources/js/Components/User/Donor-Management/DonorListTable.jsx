@@ -173,9 +173,8 @@ const DonorListTable = ({
                 </Table>
             </div>
 
-            {donors.last_page > 1 && (
-                <PaginatedNav {...{ paginateData: donors }} />
-            )}
+             <PaginatedNav {...{ paginateData: donors }} />
+             
         </Card>
     );
 };

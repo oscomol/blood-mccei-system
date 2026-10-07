@@ -45,6 +45,7 @@ const DonationListTable = ({
     setBloodType,
     statusType,
     setStatusType,
+    confirmDeleteDonation
 }) => {
     const showReset =
         bloodType != "All Blood Types" || statusType != "All Status";
@@ -64,7 +65,7 @@ const DonationListTable = ({
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Select
+                        {/* <Select
                             value={bloodType}
                             onValueChange={(v) => setBloodType(v)}
                         >
@@ -78,7 +79,7 @@ const DonationListTable = ({
                                     </SelectItem>
                                 ))}
                             </SelectContent>
-                        </Select>
+                        </Select> */}
                         <Select
                             value={statusType}
                             onValueChange={(v) => setStatusType(v)}
@@ -113,17 +114,17 @@ const DonationListTable = ({
                 <Table>
                     <TableHeader>
                         <TableRow className="hover:bg-transparent">
-                            <TableHead className={thClass}>Donor</TableHead>
+                            {/* <TableHead className={thClass}>Donor</TableHead>
                             <TableHead className={thClass}>
                                 Blood Type
-                            </TableHead>
+                            </TableHead> */}
                             <TableHead className={thClass}>
                                 Donation Date
                             </TableHead>
-                            <TableHead className={thClass}>Status</TableHead>
                             <TableHead className={thClass}>
                                 Next Eligible Date
                             </TableHead>
+                            <TableHead className={thClass}>Status</TableHead>
                             <TableHead className={thClass}>Remarks</TableHead>
                             <TableHead className={thClass}>Actions</TableHead>
                         </TableRow>
@@ -134,15 +135,14 @@ const DonationListTable = ({
                                 key={d.id}
                                 d={d}
                                 editRecord={editRecord}
+                                confirmDeleteDonation={confirmDeleteDonation}
                             />
                         ))}
                     </TableBody>
                 </Table>
             </div>
 
-            {donations.last_page > 1 && (
-                <PaginatedNav {...{ paginateData: donations }} />
-            )}
+            <PaginatedNav {...{ paginateData: donations }} />
         </Card>
     );
 };

@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils";
 const navMain = [
   { title: "Dashboard", url: "dashboard", link: "dashboard", icon: LayoutDashboard },
   { title: "Donor Management", url: "donor-management", link: "donors", icon: HeartHandshake },
-  { title: "Donation Records", url: "donation-records", link: "donations", icon: ClipboardList },
+  // { title: "Donation Records", url: "donation-records", link: "donations", icon: ClipboardList },
   { title: "User Management", url: "user-management", link: "users", icon: UsersRound },
   { title: "Blood Inventory", url: "admin.inventory", link: "inventory", icon: Droplets },
   { title: "Blood Requests", url: "admin.requests", link: "requests", icon: HandHelping },
