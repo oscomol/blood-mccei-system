@@ -50,6 +50,7 @@ const DonorListTable = ({
     setEligibiltyType,
     lifecycleType,
     setLifecycleType,
+    showDonorInfo
 }) => {
     const showReset =
         bloodType != "All Blood Types" ||
@@ -165,6 +166,7 @@ const DonorListTable = ({
                                 d={d}
                                 editDonor={editDonor}
                                 deleteDonor={deleteDonor}
+                                showDonorInfo={showDonorInfo}
                             />
                         ))}
                     </TableBody>

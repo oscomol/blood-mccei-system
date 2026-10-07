@@ -9,7 +9,7 @@ import Cards from "@/Components/User/Donation-records/Cards";
 import InputSearch from "@/Components/User/Shared/InputSearch";
 import { router } from "@inertiajs/react";
 
-const DonationRecords = ({ donors, donations, reports }) => {
+const DonationRecords = ({ donors, donations, reports, donor_info }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedDonation, setSelectedDonation] = useState(null);
 
@@ -18,6 +18,8 @@ const DonationRecords = ({ donors, donations, reports }) => {
     const [statusType, setStatusType] = useState("All Status");
 
     const isFirstRender = useRef(true);
+
+    console.log(donor_info);
 
     useEffect(() => {
         if (isFirstRender.current) {
@@ -28,12 +30,12 @@ const DonationRecords = ({ donors, donations, reports }) => {
         const timeout = setTimeout(() => {
             let qry = { search: search || undefined };
 
-            if(bloodType && bloodType != "All Blood Types"){
-                qry = {...qry, blood_type: bloodType}
+            if (bloodType && bloodType != "All Blood Types") {
+                qry = { ...qry, blood_type: bloodType };
             }
 
-            if(statusType && statusType != "All Status"){
-                qry = {...qry, status_type: statusType}
+            if (statusType && statusType != "All Status") {
+                qry = { ...qry, status_type: statusType };
             }
 
             router.get(route("donation-records"), qry, {
@@ -59,7 +61,7 @@ const DonationRecords = ({ donors, donations, reports }) => {
     return (
         <>
             <AuthenticatedLayout2
-                title="Donation Records"
+                title={donor_info?.full_name}
                 subtitle="Blood donation history and lifecycle tracking"
                 actionButton={
                     <div className="flex items-center gap-2">
@@ -82,7 +84,16 @@ const DonationRecords = ({ donors, donations, reports }) => {
             >
                 <div className="space-y-4">
                     <Cards {...{ reports }} />
-                    <DonationListTable {...{ donations, editRecord, bloodType, setBloodType, statusType, setStatusType }} />
+                    <DonationListTable
+                        {...{
+                            donations,
+                            editRecord,
+                            bloodType,
+                            setBloodType,
+                            statusType,
+                            setStatusType,
+                        }}
+                    />
                 </div>
             </AuthenticatedLayout2>
             <DonationForm
@@ -92,6 +103,7 @@ const DonationRecords = ({ donors, donations, reports }) => {
                     donors,
                     selectedDonation,
                     setSelectedDonation,
+                    donor_info
                 }}
             />
         </>

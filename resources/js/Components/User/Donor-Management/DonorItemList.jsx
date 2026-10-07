@@ -19,7 +19,7 @@ const LIFECYCLE_BADGE = {
 };
 
 
-const DonorItemList = ({ d, editDonor, deleteDonor }) => {
+const DonorItemList = ({ d, editDonor, deleteDonor, showDonorInfo }) => {
     return (
         <TableRow>
             <TableCell>
@@ -36,7 +36,7 @@ const DonorItemList = ({ d, editDonor, deleteDonor }) => {
                 <span
                     className={cn(
                         "rounded-full px-2.5 py-1 text-xs font-semibold",
-                        ELIGIBILITY_BADGE[d.eligibility],
+                        ELIGIBILITY_BADGE[d.eligibility_status],
                     )}
                 >
                     {d.eligibility_status}
@@ -71,7 +71,7 @@ const DonorItemList = ({ d, editDonor, deleteDonor }) => {
                     />
                     <ButtonIcon
                         Icon={<Eye />}
-                        onBtnClick={() => alert("user")}
+                        onBtnClick={() => showDonorInfo(d)}
                         isDisabled={false}
                     />
                 </div>

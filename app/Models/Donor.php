@@ -28,11 +28,16 @@ class Donor extends Model
         'date_of_birth' => 'date',
     ];
 
-    protected $appends = ['full_name', 'created_at_formatted'];
+    protected $appends = ['full_name', 'created_at_formatted', 'birth_date_formatted'];
 
     public function getCreatedAtFormattedAttribute()
     {
         return $this->created_at?->format('M d, Y');
+    }
+
+    public function getBirthDateFormattedAttribute()
+    {
+        return $this->date_of_birth?->format('M d, Y');
     }
 
     public function getFullNameAttribute()

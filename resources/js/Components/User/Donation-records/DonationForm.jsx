@@ -40,12 +40,13 @@ const DonationForm = ({
     donors,
     selectedDonation,
     setSelectedDonation,
+    donor_info
 }) => {
     const { data, setData, post, errors, reset, processing } = useForm({
         id: null,
-        donor_id: "",
+        donor_id: donor_info?.id || "",
         donation_date: "",
-        blood_type: "",
+        blood_type: donor_info?.blood_type || "",
         donation_status: "Completed",
         next_eligible_date: "",
         remarks: "",

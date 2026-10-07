@@ -18,6 +18,9 @@ class DonationController extends Controller
         $search = $request->query('search');
         $blood_type = $request->query('blood_type');
         $status_type = $request->query('status_type');
+        $donor_id = $request->query('donor_id');
+
+        $donor_info = Donor::where('id', $donor_id)->first();
 
         $donations = Donation::with('donor:id,first_name,middle_name,last_name')
             ->when($search, function ($query, $search) {
@@ -42,6 +45,9 @@ class DonationController extends Controller
             ->when($status_type, function ($query, $status_type) {
                 $query->where('donation_status', $status_type);
             })
+             ->when($donor_id, function ($query, $donor_id) {
+                $query->where('id', $donor_id);
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(5)
             ->withQueryString()
@@ -57,6 +63,8 @@ class DonationController extends Controller
                 'next_eligible_date_display' => $donation->next_eligible_date?->format('M d, Y'),
                 'remarks'            => $donation->remarks,
             ]);
+
+        
 
 
         $donors = Donor::select('id', 'first_name', 'middle_name', 'last_name', 'blood_type')
@@ -82,7 +90,8 @@ class DonationController extends Controller
         return Inertia::render('DonationRecords', [
             'donations' => $donations,
             'donors'    => $donors,
-            'reports' => $reports
+            'reports' => $reports,
+            'donor_info' => $donor_info
         ]);
     }
 
