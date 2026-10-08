@@ -6,6 +6,7 @@ import ButtonIcon from "../Shared/ButtonIcon";
 const STATUS_BADGE = {
     Completed: "bg-emerald-100 text-emerald-700",
     Deferred: "bg-amber-100 text-amber-700",
+    Scheduled: "bg-gray-100 text-gray-700",
 };
 
 const DonationItemList = ({ d, editRecord, confirmDeleteDonation }) => {

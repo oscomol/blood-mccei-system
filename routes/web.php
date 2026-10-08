@@ -46,6 +46,9 @@ Route::delete('/donor-management/{donor}', [DonorController::class, 'destroy'])
 
 Route::get('/donation-records', [DonationController::class, 'index'])->middleware(['auth', 'verified'])->name('donation-records');
 Route::post('/donation-records', [DonationController::class, 'createOrUpdate'])->middleware(['auth', 'verified'])->name('donation.createOrUpdate');
+Route::delete('/donation-records/{donation}', [DonationController::class, 'destroy'])
+    ->middleware(['auth', 'verified'])
+    ->name('donation.delete');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

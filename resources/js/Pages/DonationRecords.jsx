@@ -17,6 +17,8 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
     const [bloodType, setBloodType] = useState("All Blood Types");
     const [statusType, setStatusType] = useState("All Status");
 
+    const [isFetching, setIsFetching] = useState(false);
+
     const isFirstRender = useRef(true);
 
     useEffect(() => {
@@ -26,7 +28,10 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
         }
 
         const timeout = setTimeout(() => {
-            let qry = { search: search || undefined, donor_id: donor_info?.id || undefined };
+            let qry = {
+                search: search || undefined,
+                donor_id: donor_info?.id || undefined,
+            };
 
             if (bloodType && bloodType != "All Blood Types") {
                 qry = { ...qry, blood_type: bloodType };
@@ -40,6 +45,8 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
                 preserveState: true,
                 preserveScroll: true,
                 replace: true,
+                onStart: () => setIsFetching(true),
+                onFinish: () => setIsFetching(false),
             });
         }, 500);
 
@@ -59,12 +66,8 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
     const confirmDeleteDonation = (record) => {
         setSelectedDonation(record);
         setIsOpen(false);
-        setIsConfirmOpen(true)
-    }
-
-    const deleteRecord = (record) => {
-        console.log(record)
-    }
+        setIsConfirmOpen(true);
+    };
 
     return (
         <>
@@ -78,7 +81,7 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
                             {...{
                                 search,
                                 setSearch,
-                                placeholder: "Search donation here",
+                                placeholder: "Enter remarks",
                             }}
                         />
                         <Button
@@ -101,12 +104,20 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
                             setBloodType,
                             statusType,
                             setStatusType,
-                            confirmDeleteDonation
+                            confirmDeleteDonation,
+                            isFetching
                         }}
                     />
                 </div>
             </AuthenticatedLayout2>
-            <ConfirmDeleteRecord {...{isConfirmOpen, setIsConfirmOpen, deleteRecord, selectedDonation, setSelectedDonation}} />
+            <ConfirmDeleteRecord
+                {...{
+                    isConfirmOpen,
+                    setIsConfirmOpen,
+                    selectedDonation,
+                    setSelectedDonation,
+                }}
+            />
             <DonationForm
                 {...{
                     isOpen,
@@ -114,7 +125,7 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
                     donors,
                     selectedDonation,
                     setSelectedDonation,
-                    donor_info
+                    donor_info,
                 }}
             />
         </>

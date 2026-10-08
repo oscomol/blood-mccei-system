@@ -18,6 +18,7 @@ import DonorItemList from "./DonorItemList";
 import PaginatedNav from "../Shared/PaginatedNav";
 import { RefreshCcwIcon } from "lucide-react";
 import { Button } from "@/Components/ui/button";
+import LoadingSpinner from "../Shared/LoadingSpinner";
 
 const inputClass =
     "border-[#c9d3e3] placeholder:text-[#8b97ae] focus:!border-blue-500 focus:!ring-1 focus:!ring-blue-500 focus:!ring-offset-0 focus:!outline-none min-w-[9rem]";
@@ -50,7 +51,8 @@ const DonorListTable = ({
     setEligibiltyType,
     lifecycleType,
     setLifecycleType,
-    showDonorInfo
+    showDonorInfo,
+    isFetching
 }) => {
     const showReset =
         bloodType != "All Blood Types" ||
@@ -65,6 +67,7 @@ const DonorListTable = ({
 
     return (
         <Card className="rounded-2xl border-slate-200 shadow-sm">
+            <LoadingSpinner show={isFetching} />
             <CardHeader className="border-b border-slate-100 px-4 pt-4 pb-2">
                 <div className="flex items-center justify-between gap-4 overflow-x-auto">
                     <div className="shrink-0">
@@ -146,6 +149,7 @@ const DonorListTable = ({
                             <TableHead className={thClass}>Name</TableHead>
                             <TableHead className={thClass}>Email</TableHead>
                             <TableHead className={thClass}>Contact</TableHead>
+                            <TableHead className={thClass}>Donations</TableHead>
                             <TableHead className={thClass}>
                                 Blood Type
                             </TableHead>
@@ -174,7 +178,7 @@ const DonorListTable = ({
             </div>
 
              <PaginatedNav {...{ paginateData: donors }} />
-             
+
         </Card>
     );
 };

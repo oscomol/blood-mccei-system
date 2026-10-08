@@ -22,22 +22,27 @@ class DonationController extends Controller
 
         $donor_info = Donor::where('id', $donor_id)->first();
 
+        // $donations = Donation::with('donor:id,first_name,middle_name,last_name')
+        //     ->when($search, function ($query, $search) {
+        //         $query->where(function ($q) use ($search) {
+        //             $q->whereHas('donor', function ($d) use ($search) {
+        //                 $d->where('first_name', 'like', "%{$search}%")
+        //                     ->orWhere('middle_name', 'like', "%{$search}%")
+        //                     ->orWhere('last_name', 'like', "%{$search}%")
+        //                     ->orWhere('email', 'like', "%{$search}%")
+        //                     ->orWhereRaw(
+        //                         "CONCAT(first_name, ' ', last_name) LIKE ?",
+        //                         ["%{$search}%"]
+        //                     );
+        //             })
+        //                 ->orWhere('blood_type', 'like', "%{$search}%")
+        //                 ->orWhere('donation_status', 'like', "%{$search}%");
+        //         });
+        //     })
+
         $donations = Donation::with('donor:id,first_name,middle_name,last_name')
             ->when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->whereHas('donor', function ($d) use ($search) {
-                        $d->where('first_name', 'like', "%{$search}%")
-                            ->orWhere('middle_name', 'like', "%{$search}%")
-                            ->orWhere('last_name', 'like', "%{$search}%")
-                            ->orWhere('email', 'like', "%{$search}%")
-                            ->orWhereRaw(
-                                "CONCAT(first_name, ' ', last_name) LIKE ?",
-                                ["%{$search}%"]
-                            );
-                    })
-                        ->orWhere('blood_type', 'like', "%{$search}%")
-                        ->orWhere('donation_status', 'like', "%{$search}%");
-                });
+                $query->where('remarks', 'like', "%{$search}%");
             })
             ->when($blood_type, function ($query, $blood_type) {
                 $query->where('blood_type', $blood_type);
@@ -45,7 +50,7 @@ class DonationController extends Controller
             ->when($status_type, function ($query, $status_type) {
                 $query->where('donation_status', $status_type);
             })
-             ->when($donor_id, function ($query, $donor_id) {
+            ->when($donor_id, function ($query, $donor_id) {
                 $query->where('donor_id', $donor_id);
             })
             ->orderBy('created_at', 'desc')
@@ -64,7 +69,7 @@ class DonationController extends Controller
                 'remarks'            => $donation->remarks,
             ]);
 
-        
+
 
 
         $donors = Donor::select('id', 'first_name', 'middle_name', 'last_name', 'blood_type')
@@ -166,6 +171,12 @@ class DonationController extends Controller
      */
     public function destroy(Donation $donation)
     {
-        //
+        try {
+            $donation->delete();
+
+            return redirect()->back()->with('success', 'Donation deleted succesfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete Donation. Please try again.');
+        }
     }
 }

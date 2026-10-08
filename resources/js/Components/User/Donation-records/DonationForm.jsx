@@ -38,7 +38,6 @@ const DonationForm = ({
     });
 
     useEffect(() => {
-        console.log(selectedDonation);
         if (!selectedDonation) return;
         console.log(selectedDonation + "AFTER");
         setData({
@@ -78,7 +77,10 @@ const DonationForm = ({
                     : "Record new donation"
             }
             size="xl"
-            onDismiss={() => setSelectedDonation(null)}
+            onDismiss={() => {
+                setSelectedDonation(null)
+                reset()
+            }}
         >
             <form onSubmit={submit}>
                 <div className="grid w-full flex-1 grid-cols-1 gap-x-6 gap-y-3 pr-1 sm:grid-cols-2">

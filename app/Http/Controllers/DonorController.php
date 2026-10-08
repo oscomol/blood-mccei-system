@@ -19,22 +19,37 @@ class DonorController extends Controller
         $eligibilityType = $request->query('eligibility_type');
         $lifecycleType = $request->query('lifecycle_type');
 
-        $donors = Donor::when($search, function ($query, $search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', "%{$search}%")
-                    ->orWhere('middle_name', 'like', "%{$search}%")
-                    ->orWhere('last_name', 'like', "%{$search}%");
-            });
-        })
-            ->when($bloodType, function ($query, $bloodType) {
-                $query->where('blood_type', $bloodType);
+        // $donors = Donor::when($search, function ($query, $search) {
+        //     $query->where(function ($q) use ($search) {
+        //         $q->where('first_name', 'like', "%{$search}%")
+        //             ->orWhere('middle_name', 'like', "%{$search}%")
+        //             ->orWhere('last_name', 'like', "%{$search}%");
+        //     });
+        // })
+        //     ->when($bloodType, function ($query, $bloodType) {
+        //         $query->where('blood_type', $bloodType);
+        //     })
+        //     ->when($eligibilityType, function ($query, $eligibilityType) {
+        //         $query->where('eligibility_status', $eligibilityType);
+        //     })
+        //      ->when($lifecycleType, function ($query, $lifecycleType) {
+        //         $query->where('lifecycle_status', $lifecycleType);
+        //     })
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(6)
+        //     ->withQueryString();
+
+        $donors = Donor::withCount('donations')
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('middle_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%");
+                });
             })
-            ->when($eligibilityType, function ($query, $eligibilityType) {
-                $query->where('eligibility_status', $eligibilityType);
-            })
-             ->when($lifecycleType, function ($query, $lifecycleType) {
-                $query->where('lifecycle_status', $lifecycleType);
-            })
+            ->when($bloodType, fn($query, $bloodType) => $query->where('blood_type', $bloodType))
+            ->when($eligibilityType, fn($query, $eligibilityType) => $query->where('eligibility_status', $eligibilityType))
+            ->when($lifecycleType, fn($query, $lifecycleType) => $query->where('lifecycle_status', $lifecycleType))
             ->orderBy('created_at', 'desc')
             ->paginate(6)
             ->withQueryString();

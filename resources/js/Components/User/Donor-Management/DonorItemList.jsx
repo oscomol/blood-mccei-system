@@ -27,6 +27,7 @@ const DonorItemList = ({ d, editDonor, deleteDonor, showDonorInfo }) => {
             </TableCell>
             <TableCell className="text-slate-600">{d.email}</TableCell>
             <TableCell className="text-slate-600">{d.contact_number}</TableCell>
+            <TableCell className="text-slate-600">{d.donations_count}</TableCell>
             <TableCell>
                 <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-500">
                     {d.blood_type}

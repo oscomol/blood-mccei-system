@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "../Shared/Modal";
 import { AlertTriangle } from "lucide-react";
 import { Button } from "@/Components/ui/button";
+import { router } from "@inertiajs/react";
 
 export default function ConfirmDeleteRecord({
     isConfirmOpen,
     setIsConfirmOpen,
-    deleteRecord,
     selectedDonation,
     setSelectedDonation,
 }) {
+    const [processing, setProcessing] = useState(false);
+
+     const close = () => {
+            setIsConfirmOpen(false);
+            setSelectedDonation(null);
+        };
+
+        const confirmDelete = () => {
+            if (!selectedDonation?.id) return;
+
+            setProcessing(true);
+            router.delete(route("donation.delete", selectedDonation.id), {
+                onSuccess: () => close(),
+                onFinish: () => setProcessing(false),
+            });
+        };
+
     return (
         <Modal
             setOpen={setIsConfirmOpen}
@@ -30,15 +47,15 @@ export default function ConfirmDeleteRecord({
             <div className="mt-6 flex items-center justify-end gap-4">
                 <Button
                     type="button"
-                    onClick={() => setIsConfirmOpen(false)}
+                    onClick={close}
                     variant="outline"
                 >
                     Cancel
                 </Button>
                 <Button
                     type="button"
-                    onClick={() => deleteRecord(selectedDonation)}
-                    // disabled={processing}
+                    onClick={() => confirmDelete(selectedDonation)}
+                    disabled={processing}
                     className="bg-red-600 font-semibold text-white hover:bg-red-700"
                 >
                     Delete Record

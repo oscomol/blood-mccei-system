@@ -7,7 +7,7 @@ import DonorListTable from "@/Components/User/Donor-Management/DonorListTable";
 import InputSearch from "@/Components/User/Shared/InputSearch";
 import AuthenticatedLayout2 from "@/Layouts/AuthenticatedLayout2";
 import { router } from "@inertiajs/react";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
 const DonorManagement = ({ donors }) => {
@@ -24,6 +24,7 @@ const DonorManagement = ({ donors }) => {
     const [search, setSearch] = useState("");
     const isFirstRender = useRef(true);
 
+    const [isFetching, setIsFetching] = useState(false);
 
     useEffect(() => {
         if (isFirstRender.current) {
@@ -49,6 +50,8 @@ const DonorManagement = ({ donors }) => {
                 preserveState: true,
                 preserveScroll: true,
                 replace: true,
+                onStart: () => setIsFetching(true),
+                onFinish: () => setIsFetching(false),
             });
         }, 500);
 
@@ -142,6 +145,7 @@ const DonorManagement = ({ donors }) => {
                         lifecycleType,
                         setLifecycleType,
                         showDonorInfo,
+                        isFetching
                     }}
                 />
             </AuthenticatedLayout2>

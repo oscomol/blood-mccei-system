@@ -9,10 +9,12 @@ import {
 } from "@/Components/ui/table";
 import UserAccountItem from "./UserAccountItem";
 import PaginatedNav from "../Shared/PaginatedNav";
+import LoadingSpinner from "../Shared/LoadingSpinner";
 
-const UserAccountsTable = ({ users, editUser, deleteUser }) => {
+const UserAccountsTable = ({ users, editUser, deleteUser, isFetching }) => {
     return (
         <Card className="rounded-2xl border-slate-200 shadow-sm">
+            <LoadingSpinner show={isFetching} />
             <CardHeader className="border-b border-slate-100 px-4 pt-4 pb-2">
                 <p className="text-base font-semibold text-slate-900">User Accounts</p>
                 {/* <p className="text-xs text-slate-400">{users.total} accounts found</p> */}

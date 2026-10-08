@@ -16,6 +16,8 @@ const UserManagement = ({ users }) => {
     const [search, setSearch] = useState("");
     const isFirstRender = useRef(true);
 
+    const [isFetching, setIsFetching] = useState(false)
+
     useEffect(() => {
         if (isFirstRender.current) {
             isFirstRender.current = false;
@@ -30,7 +32,9 @@ const UserManagement = ({ users }) => {
                     preserveState: true,
                     preserveScroll: true,
                     replace: true,
-                }
+                    onStart: () => setIsFetching(true),
+                    onFinish: () => setIsFetching(false),
+                },
             );
         }, 500);
 
@@ -59,7 +63,13 @@ const UserManagement = ({ users }) => {
                 subtitle="Manage system user accounts and role assignments"
                 actionButton={
                     <div className="flex items-center gap-2">
-                         <InputSearch {...{search, setSearch, placeholder: "Search name or email"}} />
+                        <InputSearch
+                            {...{
+                                search,
+                                setSearch,
+                                placeholder: "Search name or email",
+                            }}
+                        />
                         <Button
                             onClick={addUser}
                             className="bg-blue-600 text-white shadow-sm hover:bg-blue-700"
@@ -70,11 +80,18 @@ const UserManagement = ({ users }) => {
                     </div>
                 }
             >
-                <UserAccountsTable {...{ users, editUser, deleteUser }} />
+                <UserAccountsTable {...{ users, editUser, deleteUser, isFetching }} />
             </AuthenticatedLayout2>
-            <UserForm {...{ isOpen, setIsOpen, selectedUser, setSelectedUser }} />
+            <UserForm
+                {...{ isOpen, setIsOpen, selectedUser, setSelectedUser }}
+            />
             <ConfirmUserModal
-                {...{ selectedUser, setSelectedUser, isConfirmOpen, setIsConfirmOpen }}
+                {...{
+                    selectedUser,
+                    setSelectedUser,
+                    isConfirmOpen,
+                    setIsConfirmOpen,
+                }}
             />
         </>
     );
