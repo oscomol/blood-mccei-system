@@ -1,12 +1,11 @@
-import React from "react";
 import { Card, CardContent } from "@/Components/ui/card";
 import { Users, UserCheck, Droplet, Package, ClipboardList, AlertTriangle, ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 
-const SAMPLE_DATA = [
+const STAT_CONFIG = [
     {
         label: "TOTAL DONORS",
-        value: 8,
         caption: "Registered donors",
         trend: "+3 this month",
         trendDirection: "up",
@@ -16,7 +15,6 @@ const SAMPLE_DATA = [
     },
     {
         label: "ELIGIBLE DONORS",
-        value: 5,
         caption: "63% of total",
         trend: null,
         icon: UserCheck,
@@ -25,7 +23,6 @@ const SAMPLE_DATA = [
     },
     {
         label: "TOTAL DONATIONS",
-        value: 12,
         caption: "All-time records",
         trend: "+12 this month",
         trendDirection: "up",
@@ -35,7 +32,6 @@ const SAMPLE_DATA = [
     },
     {
         label: "BLOOD UNITS",
-        value: 183,
         caption: "Available in inventory",
         trend: null,
         icon: Package,
@@ -44,7 +40,6 @@ const SAMPLE_DATA = [
     },
     {
         label: "PENDING REQUESTS",
-        value: 2,
         caption: "Awaiting review",
         trend: "Needs attention",
         trendDirection: "down",
@@ -54,7 +49,6 @@ const SAMPLE_DATA = [
     },
     {
         label: "LOW STOCK ALERTS",
-        value: 4,
         caption: "Blood types affected",
         trend: "Action needed",
         trendDirection: "down",
@@ -64,10 +58,19 @@ const SAMPLE_DATA = [
     },
 ];
 
-const Cards = () => {
+const Cards = ({stats = []}) => {
+
+   const analytics = useMemo(() => {
+        const values = Object.fromEntries(stats.map((s) => [s.label, s.value]));
+        return STAT_CONFIG.map((cfg) => ({
+            ...cfg,
+            value: values[cfg.label] ?? 0,
+        }));
+    }, [stats]);
+
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {SAMPLE_DATA.map((item) => (
+            {analytics.map((item) => (
                 <Card key={item.label} className="rounded-2xl border-slate-200 shadow-sm">
                     <CardContent className="p-5">
                         <div className="flex items-start justify-between">

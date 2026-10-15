@@ -4,6 +4,7 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,9 +29,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController:: class, "index"])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/user-management', [UserController:: class, "index"])->middleware(['auth', 'verified'])->name('user-management');
 Route::post('/user-management', [UserController:: class, "createOrUpdate"])->middleware(['auth', 'verified'])->name('user.post');
