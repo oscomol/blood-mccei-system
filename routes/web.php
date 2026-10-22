@@ -9,6 +9,8 @@ use App\Http\Controllers\SettingsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,46 +23,43 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+
+    Route::controller(UserController::class)->prefix('user-management')->group(function () {
+        Route::get('/', 'index')->name('user-management');
+        Route::post('/', 'createOrUpdate')->name('user.post');
+        Route::delete('/{user}', 'destroy')->name('user.delete');
+    });
+
+    Route::controller(DonorController::class)->prefix('donor-management')->group(function () {
+        Route::get('/', 'index')->name('donor-management');
+        Route::post('/', 'createOrUpdate')->name('donor.store');
+        Route::delete('/{donor}', 'destroy')->name('donor.delete');
+    });
+
+    Route::controller(DonationController::class)->prefix('donation-records')->group(function () {
+        Route::get('/', 'index')->name('donation-records');
+        Route::post('/', 'createOrUpdate')->name('donation.createOrUpdate');
+        Route::delete('/{donation}', 'destroy')->name('donation.delete');
+    });
 });
 
-Route::get('/dashboard', [DashboardController:: class, "index"])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/settings', [SettingsController:: class, "index"])->middleware(['auth', 'verified'])->name('settings');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+                ->name('logout');
 });
 
-Route::get('/user-management', [UserController:: class, "index"])->middleware(['auth', 'verified'])->name('user-management');
-Route::post('/user-management', [UserController:: class, "createOrUpdate"])->middleware(['auth', 'verified'])->name('user.post');
-Route::delete('/user-management/{user}', [UserController::class, 'destroy'])
-    ->middleware(['auth', 'verified'])
-    ->name('user.delete');
-
-Route::get('/donor-management', [DonorController::class, 'index'])->middleware(['auth', 'verified'])->name('donor-management');
-Route::post('/donor-management', [DonorController::class, 'createOrUpdate'])->middleware(['auth', 'verified'])->name('donor.store');
-Route::delete('/donor-management/{donor}', [DonorController::class, 'destroy'])
-    ->middleware(['auth', 'verified'])
-    ->name('donor.delete');
-
-Route::get('/donation-records', [DonationController::class, 'index'])->middleware(['auth', 'verified'])->name('donation-records');
-Route::post('/donation-records', [DonationController::class, 'createOrUpdate'])->middleware(['auth', 'verified'])->name('donation.createOrUpdate');
-Route::delete('/donation-records/{donation}', [DonationController::class, 'destroy'])
-    ->middleware(['auth', 'verified'])
-    ->name('donation.delete');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
 
-require __DIR__.'/auth.php';

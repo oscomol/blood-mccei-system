@@ -54,7 +54,7 @@ const Settings = () => {
    const handleDeleteAccount = () => {
     setIsConfirmOpen(true)
     };
- 
+
 
   return (
     <>
@@ -67,9 +67,9 @@ const Settings = () => {
        <div>
 
             <div className="space-y-6">
-              
+
               {/* Profile Information */}
-              <Card className="shadow-xl bg-white/90 backdrop-blur-sm border-0">
+              <Card className="bg-white/90 backdrop-blur-sm border-0">
                 <CardHeader className="bg-gradient-to-r from-blue-500/10 to-teal-500/10 border-b">
                   <CardTitle className="text-xl text-gray-900 flex items-center gap-2">
                     <User className="h-5 w-5 text-blue-600" />
@@ -145,7 +145,7 @@ const Settings = () => {
               </Card>
 
               {/* Password & Security */}
-              <Card className="shadow-xl bg-white/90 backdrop-blur-sm border-0">
+              <Card className="bg-white/90 backdrop-blur-sm border-0">
                 <CardHeader className="bg-gradient-to-r from-blue-500/10 to-teal-500/10 border-b">
                   <CardTitle className="text-xl text-gray-900 flex items-center gap-2">
                     <Lock className="h-5 w-5 text-blue-600" />
@@ -266,14 +266,14 @@ const Settings = () => {
                   </form>
                 </CardContent>
               </Card>
-             
+
 
               {/* Privacy & Data */}
-              <Card className="shadow-xl bg-white/90 backdrop-blur-sm border-0">
+              <Card className="bg-white/90 backdrop-blur-sm border-0">
                 <CardHeader className="bg-gradient-to-r from-blue-500/10 to-teal-500/10 border-b">
                   <CardTitle className="text-xl text-gray-900 flex items-center gap-2">
                     <Shield className="h-5 w-5 text-blue-600" />
-                    Quit to MCCEI 
+                    Delete Account
                   </CardTitle>
                   <p className="text-gray-600 text-sm">This will permanently delete your account</p>
                 </CardHeader>
@@ -290,9 +290,9 @@ const Settings = () => {
                           Permanently delete your account and all associated data. This action cannot be undone.
                         </p>
                       </div>
-                      <Button 
+                      <Button
                         onClick={handleDeleteAccount}
-                        variant="destructive" 
+                        variant="destructive"
                         size="sm"
                         className="bg-red-600 hover:bg-red-700 w-full sm:w-auto sm:ml-4 sm:flex-shrink-0 text-white"
                       >

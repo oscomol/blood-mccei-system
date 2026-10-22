@@ -3,10 +3,7 @@ import { Card, CardContent, CardHeader } from "@/Components/ui/card";
 import {
     Droplet,
     BookOpen,
-    UserPlus,
     ClipboardList,
-    Package,
-    FileText,
     BarChart3,
     Users2,
 } from "lucide-react";
@@ -17,6 +14,7 @@ import { router } from "@inertiajs/react";
 const STATUS_BADGE = {
     Completed: "bg-emerald-100 text-emerald-700",
     Deferred: "bg-amber-100 text-amber-700",
+    Scheduled: "bg-gray-100 text-gray-700",
 };
 
 const AVATAR_COLORS = [

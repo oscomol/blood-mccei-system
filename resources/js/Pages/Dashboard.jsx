@@ -19,13 +19,13 @@ const Dashboard = ({ stats, monthlyDonation, bloodTypes, recentDonations }) => {
             subtitle="MCCEI Blood Donor Lifecycle Tracking System — Overview"
             actionButton={
                 <div className="flex gap-3">
-                    <Button
+                    {/* <Button
                         variant="outline"
                         className="border-gray-300 text-gray-600 hover:text-gray-700"
                     >
                         <File />
                         View Reports
-                    </Button>
+                    </Button> */}
                     <Button
                         onClick={addDonor}
                         className="bg-blue-600 text-white shadow-sm hover:bg-blue-700"
