@@ -33,11 +33,11 @@ const navMain = [
   { title: "Donor Management", url: "donor-management", link: "donors", icon: HeartHandshake },
   // { title: "Donation Records", url: "donation-records", link: "donations", icon: ClipboardList },
   { title: "User Management", url: "user-management", link: "users", icon: UsersRound },
-  { title: "Blood Inventory", url: "admin.inventory", link: "inventory", icon: Droplets },
-  { title: "Blood Requests", url: "admin.requests", link: "requests", icon: HandHelping },
-  { title: "Analytics & Reports", url: "admin.analytics", link: "analytics", icon: BarChart3 },
+  // { title: "Blood Inventory", url: "admin.inventory", link: "inventory", icon: Droplets },
+  // { title: "Blood Requests", url: "admin.requests", link: "requests", icon: HandHelping },
+   { title: "Analytics & Reports", url: "admin.analytics", link: "analytics", icon: BarChart3 },
   //{ title: "Notifications", url: "admin.notifications", link: "notifications", icon: Bell },
-  { title: "Settings", url: "admin.settings", link: "settings", icon: Settings },
+  { title: "Settings", url: "settings", link: "settings", icon: Settings },
 ];
 
 function AppSidebar({ title }) {

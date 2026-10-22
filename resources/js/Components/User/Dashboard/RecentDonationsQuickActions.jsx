@@ -11,14 +11,8 @@ import {
     Users2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { router } from "@inertiajs/react";
 
-const DONATIONS_DATA = [
-    { name: "Juan dela Cruz", id: "DON001", date: "2024-08-10", bloodType: "O+", status: "Completed" },
-    { name: "Maria Dizon", id: "DON002", date: "2024-07-25", bloodType: "A+", status: "Completed" },
-    { name: "Juan dela Cruz", id: "DON003", date: "2024-05-05", bloodType: "O+", status: "Completed" },
-    { name: "Ricardo Garcia", id: "DON004", date: "2024-06-20", bloodType: "B+", status: "Deferred" },
-    { name: "Roberto Mendoza", id: "DON005", date: "2024-08-01", bloodType: "O-", status: "Completed" },
-];
 
 const STATUS_BADGE = {
     Completed: "bg-emerald-100 text-emerald-700",
@@ -42,15 +36,6 @@ function initialsOf(name) {
         .toUpperCase();
 }
 
-const QUICK_ACTIONS = [
-    { label: "Add Donor", icon: Droplet, iconColor: "text-red-500" },
-    { label: "Record Donation", icon: ClipboardList, iconColor: "text-slate-600" },
-    { label: "Update Inventory", icon: Package, iconColor: "text-blue-600" },
-    { label: "Review Requests", icon: FileText, iconColor: "text-amber-600", highlight: true },
-    { label: "View Reports", icon: BarChart3, iconColor: "text-indigo-600" },
-    { label: "Manage Users", icon: Users2, iconColor: "text-slate-700" },
-];
-
 function CardTitleRow({ icon: Icon, title, subtitle, action }) {
     return (
         <CardHeader className="flex-row items-start justify-between space-y-0 border-b border-slate-100 pb-4">
@@ -66,7 +51,20 @@ function CardTitleRow({ icon: Icon, title, subtitle, action }) {
     );
 }
 
-const RecentDonationsQuickActions = () => {
+const RecentDonationsQuickActions = ({recentDonations, addDonor}) => {
+
+    const manageUser = () => router.visit(route("donor-management"));
+
+    const QUICK_ACTIONS = [
+    { label: "Add Donor", icon: Droplet, iconColor: "text-red-500", cb: addDonor },
+    { label: "Manage Users", icon: Users2, iconColor: "text-slate-700", cb: manageUser},
+    { label: "Record Donation", icon: ClipboardList, iconColor: "text-slate-600" },
+    { label: "View Reports", icon: BarChart3, iconColor: "text-indigo-600" }
+];
+
+    // { label: "Update Inventory", icon: Package, iconColor: "text-blue-600" },
+    // { label: "Review Requests", icon: FileText, iconColor: "text-amber-600", highlight: true },
+
     return (
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {/* Recent Donations */}
@@ -75,14 +73,9 @@ const RecentDonationsQuickActions = () => {
                     icon={Droplet}
                     title="Recent Donations"
                     subtitle="Latest recorded donations"
-                    action={
-                        <button type="button" className="text-sm font-medium text-slate-500 hover:text-slate-700">
-                            View all
-                        </button>
-                    }
                 />
                 <CardContent className="divide-y divide-slate-100 p-0">
-                    {DONATIONS_DATA.map((d, i) => (
+                    {recentDonations.map((d, i) => (
                         <div key={d.id} className="flex items-center justify-between px-5 py-4">
                             <div className="flex items-center gap-3">
                                 <div
@@ -124,6 +117,7 @@ const RecentDonationsQuickActions = () => {
                 <CardContent className="flex flex-col gap-2.5 p-5">
                     {QUICK_ACTIONS.map((action) => (
                         <button
+                            onClick={action.cb}
                             key={action.label}
                             type="button"
                             className={cn(

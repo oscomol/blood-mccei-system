@@ -8,7 +8,7 @@ import { router } from "@inertiajs/react";
 import { File, PlusCircle } from "lucide-react";
 import React from "react";
 
-const Dashboard = ({ stats }) => {
+const Dashboard = ({ stats, monthlyDonation, bloodTypes, recentDonations }) => {
     const addDonor = () => {
         router.visit(route("donor-management"));
     };
@@ -38,9 +38,9 @@ const Dashboard = ({ stats }) => {
         >
             <div className="flex flex-col gap-4">
                 <Cards {...{stats}} />
-                <MonthlyDonation />
-                <BloodInventoryRequests />
-                <RecentDonationsQuickActions />
+                <MonthlyDonation {...{monthlyDonation, bloodTypes}} />
+                {/* <BloodInventoryRequests /> */}
+                <RecentDonationsQuickActions {...{recentDonations, addDonor}} />
             </div>
         </AuthenticatedLayout2>
     );
