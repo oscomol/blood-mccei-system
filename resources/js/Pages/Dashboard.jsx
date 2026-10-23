@@ -4,7 +4,7 @@ import Cards from "@/Components/User/Dashboard/Cards";
 import MonthlyDonation from "@/Components/User/Dashboard/MonthlyDonation";
 import RecentDonationsQuickActions from "@/Components/User/Dashboard/RecentDonationsQuickActions";
 import AuthenticatedLayout2 from "@/Layouts/AuthenticatedLayout2";
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { File, PlusCircle } from "lucide-react";
 import React from "react";
 
@@ -36,6 +36,7 @@ const Dashboard = ({ stats, monthlyDonation, bloodTypes, recentDonations }) => {
                 </div>
             }
         >
+            <Head title='Dashboard' />
             <div className="flex flex-col gap-4">
                 <Cards {...{stats}} />
                 <MonthlyDonation {...{monthlyDonation, bloodTypes}} />

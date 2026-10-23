@@ -64,9 +64,10 @@ function AppSidebar({ title }) {
             {/* Header */}
             <SidebarHeader className="pt-4 pb-0">
                 <div className="flex items-center gap-3">
-                    <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-red-600 text-base font-bold text-white shadow-lg">
+                    <img src="/images/app_logo.png" alt="Logo" className="h-14 w-auto" />
+                    {/* <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-red-600 text-base font-bold text-white shadow-lg">
                         MC
-                    </div>
+                    </div> */}
                     {!collapsed && (
                         <div className="leading-tight">
                             <p className="text-lg font-bold text-white">

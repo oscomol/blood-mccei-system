@@ -6,7 +6,7 @@ import DonorInfoModal from "@/Components/User/Donor-Management/DonorInfoModal";
 import DonorListTable from "@/Components/User/Donor-Management/DonorListTable";
 import InputSearch from "@/Components/User/Shared/InputSearch";
 import AuthenticatedLayout2 from "@/Layouts/AuthenticatedLayout2";
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { Loader2, Plus } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -133,6 +133,7 @@ const DonorManagement = ({ donors }) => {
                     </div>
                 }
             >
+                <Head title='Donors' />
                 <DonorListTable
                     {...{
                         donors,

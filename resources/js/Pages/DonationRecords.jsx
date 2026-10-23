@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DonationListTable from "@/Components/User/Donation-records/DonationListTable";
 import DonationForm from "@/Components/User/Donation-records/DonationForm";
 import InputSearch from "@/Components/User/Shared/InputSearch";
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import ConfirmDeleteRecord from "@/Components/User/Donation-records/ConfirmDeleteRecord";
 
 const DonationRecords = ({ donors, donations, reports, donor_info }) => {
@@ -94,6 +94,7 @@ const DonationRecords = ({ donors, donations, reports, donor_info }) => {
                     </div>
                 }
             >
+                <Head title={`${donor_info?.full_name} - records`} />
                 <div className="space-y-4">
                     {/* <Cards {...{ reports }} /> */}
                     <DonationListTable

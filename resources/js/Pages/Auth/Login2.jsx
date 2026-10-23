@@ -34,11 +34,9 @@ export default function Login2() {
                     <div className="pointer-events-none absolute -bottom-32 left-[38%] h-[340px] w-[340px] rounded-full bg-fuchsia-500/10" />
 
                     <div className="relative max-w-lg">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600 text-lg font-bold shadow-lg">
-                            MC
-                        </div>
+                        <img src="/images/app_logo.png" alt="Logo" className="h-16 w-auto" />
                         <p className="mt-4 text-sm font-medium text-sky-200">
-                            Mount Carmel College of Escalante, Inc.
+                            Handugo: The Bloodletting Drive of MCCEI
                         </p>
 
                         <div className="mt-5 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-rose-300">

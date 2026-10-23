@@ -2,7 +2,7 @@ import { Button } from "@/Components/ui/button";
 import AuthenticatedLayout2 from "@/Layouts/AuthenticatedLayout2";
 import { UserPlus, Search } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import UserAccountsTable from "@/Components/User/User-Management/UserAccountsTable";
 import UserForm from "@/Components/User/User-Management/UserForm";
 import ConfirmUserModal from "@/Components/User/User-Management/ConfirmUserModal";
@@ -80,6 +80,7 @@ const UserManagement = ({ users }) => {
                     </div>
                 }
             >
+                <Head title='User management' />
                 <UserAccountsTable {...{ users, editUser, deleteUser, isFetching }} />
             </AuthenticatedLayout2>
             <UserForm
